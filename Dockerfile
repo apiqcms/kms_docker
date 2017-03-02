@@ -11,11 +11,13 @@ RUN echo 'gem "kms"' >> Gemfile
 
 RUN bundle install --without development test
 
-COPY . .
+COPY database.yml config/database.yml
 
+RUN DB_ADAPTER=nulldb bundle exec rails g kms:install &&\
+  DB_ADAPTER=nulldb bundle exec rails kms:install:migrations
+  
 # Set Rails to run in production
 ENV RAILS_ENV production
-ENV RACK_ENV production
 
 RUN DB_ADAPTER=nulldb bundle exec rails assets:precompile
 
