@@ -1,10 +1,13 @@
 FROM ruby:latest
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev postgresql-client nodejs --fix-missing --no-install-recommends
 ENV INSTALL_PATH /kms
-RUN mkdir $INSTALL_PATH
+
+RUN gem install rails --no-rdoc --no-ri &&\
+    rails new $INSTALL_PATH --skip-test-unit --skip-bundle --database=postgresql
+    
 WORKDIR $INSTALL_PATH
 
-COPY Gemfile Gemfile
+RUN echo 'gem "kms"' >> Gemfile
 
 RUN bundle install --without development test
 
