@@ -1,4 +1,4 @@
-FROM ruby:latest
+FROM ruby:alpine
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev postgresql-client nodejs --fix-missing --no-install-recommends
 
 ENV INSTALL_PATH /kms
@@ -16,9 +16,9 @@ RUN bundle install --without development test
 
 COPY database.yml config/database.yml
 
-RUN bundle exec rails g kms:install &&\
-  bundle exec rails kms:install:migrations &&\
-  bundle exec rails assets:precompile
+RUN SECRET_KEY_BASE=dummy bundle exec rails g kms:install &&\
+  SECRET_KEY_BASE=dummy bundle exec rails kms:install:migrations &&\
+  SECRET_KEY_BASE=dummy bundle exec rails assets:precompile
 
 EXPOSE 3000
 
