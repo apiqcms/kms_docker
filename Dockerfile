@@ -1,6 +1,9 @@
 FROM ruby:latest
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev postgresql-client nodejs --fix-missing --no-install-recommends
+
 ENV INSTALL_PATH /kms
+# Set Rails to run in production
+ENV RAILS_ENV production
 
 RUN gem install rails --no-rdoc --no-ri &&\
     rails new $INSTALL_PATH --skip-test-unit --skip-bundle --database=postgresql
@@ -13,13 +16,9 @@ RUN bundle install --without development test
 
 COPY database.yml config/database.yml
 
-RUN DB_ADAPTER=nulldb bundle exec rails g kms:install &&\
-  DB_ADAPTER=nulldb bundle exec rails kms:install:migrations
-  
-# Set Rails to run in production
-ENV RAILS_ENV production
-
-RUN DB_ADAPTER=nulldb bundle exec rails assets:precompile
+RUN bundle exec rails g kms:install &&\
+  bundle exec rails kms:install:migrations &&\
+  bundle exec rails assets:precompile
 
 EXPOSE 3000
 
