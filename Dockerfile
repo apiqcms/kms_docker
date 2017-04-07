@@ -3,10 +3,15 @@ MAINTAINER Igor Petrov <garik.piton@gmail.com>
 ENV LIBV8_VERSION 3.16.14.18
 RUN apk update && apk --update --no-cache add libstdc++ postgresql-client
 ENV INSTALL_PATH /kms
-RUN mkdir $INSTALL_PATH
+# Set Rails to run in production
+ENV RAILS_ENV production
+
+RUN gem install rails --no-rdoc --no-ri &&\
+    rails new $INSTALL_PATH --skip-test-unit --skip-bundle --database=postgresql
+
 WORKDIR $INSTALL_PATH
 
-COPY Gemfile Gemfile
+RUN echo 'gem "kms"' >> Gemfile
 
 RUN apk --update --no-cache add --virtual build-deps build-base python postgresql-dev nodejs g++; \
   #gem install libv8 -v ${LIBV8_VERSION} && \
@@ -14,11 +19,7 @@ RUN apk --update --no-cache add --virtual build-deps build-base python postgresq
   bundle config build.libv8 --enable-debug && \
   LIBV8_VERSION=$LIBV8_VERSION bundle install --without development test && apk del build-deps
 
-COPY . .
-
-# Set Rails to run in production
-ENV RAILS_ENV production
-ENV RACK_ENV production
+COPY database.yml config/database.yml
 
 RUN SECRET_TOKEN="$(bundle exec rails secret)" DB_ADAPTER=nulldb bundle exec rails assets:precompile
 
