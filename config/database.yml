@@ -81,5 +81,6 @@ test:
 production:
   <<: *default
   database: kms_production
-  username: kms_docker
+  username: postgres
   password: <%= ENV['KMS_DATABASE_PASSWORD'] %>
+  host: db
