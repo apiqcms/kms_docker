@@ -18,6 +18,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'jquery-rails'
 gem "coffee-rails"
 gem "turbolinks", "~> 5"
+gem 'nokogiri', '1.7.2'
 
 
 gem 'tzinfo-data'
