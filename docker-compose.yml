@@ -2,12 +2,15 @@ version: '3'
 services:
   db:
     image: postgres
+    environment:
+      POSTGRES_PASSWORD: 'xyz'
   web:
-    image: webgradus/kms
-    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    image: apiqcms/core
+    command: rails s -p 3000 -b '0.0.0.0'
     environment:
       SECRET_TOKEN: abc
       RAILS_SERVE_STATIC_FILES: 'true'
+      DATABASE: apiq
     volumes:
       - .:/kms
     ports:

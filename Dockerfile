@@ -20,4 +20,8 @@ EXPOSE 3000
 # Expose a volume so that nginx will be able to read in assets in production.
 VOLUME ["$INSTALL_PATH/public"]
 
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+# Configure an entry point, so we don't need to specify
+# "bundle exec" for each of our commands.
+ENTRYPOINT ["bundle", "exec"]
+
+CMD ["rails", "server", "-b", "0.0.0.0"]
