@@ -7,7 +7,4 @@ test:
 production:
   adapter: redis
   url: redis://localhost:6379/1
-<<<<<<< HEAD
   channel_prefix: kms_docker_51_production
-=======
->>>>>>> fc41821962e2e09f6903425e1def27a1176c5a64

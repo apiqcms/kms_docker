@@ -17,7 +17,6 @@
 default: &default
   adapter: <%= ENV['DB_ADAPTER'] ||= 'postgresql' %>
   encoding: unicode
-<<<<<<< HEAD
   # For details on connection pooling, see Rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
@@ -28,25 +27,12 @@ default: &default
 development:
   <<: *default
   database: <%= ENV['DATABASE'] + '_development' %>
-=======
-  # For details on connection pooling, see rails configuration guide
-  # http://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
-development:
-  <<: *default
-  database: kms_development
->>>>>>> fc41821962e2e09f6903425e1def27a1176c5a64
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user that initialized the database.
-<<<<<<< HEAD
   #username: kms_docker_51
-=======
-  #username: kms_docker
->>>>>>> fc41821962e2e09f6903425e1def27a1176c5a64
 
   # The password associated with the postgres role (username).
   #password:
@@ -74,11 +60,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-<<<<<<< HEAD
   database: <%= ENV['DATABASE'] + '_test' %>
-=======
-  database: kms_test
->>>>>>> fc41821962e2e09f6903425e1def27a1176c5a64
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -101,11 +83,4 @@ test:
 #
 production:
   <<: *default
-<<<<<<< HEAD
   database: <%= ENV['DATABASE'] + '_production' %>
-=======
-  database: kms_production
-  username: postgres
-  password: <%= ENV['KMS_DATABASE_PASSWORD'] %>
-  host: db
->>>>>>> fc41821962e2e09f6903425e1def27a1176c5a64
