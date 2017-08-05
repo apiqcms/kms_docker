@@ -1,22 +1,40 @@
 FROM ruby:alpine
 MAINTAINER Igor Petrov <garik.piton@gmail.com>
+<<<<<<< HEAD
+=======
+ENV LIBV8_VERSION 3.16.14.18
+>>>>>>> fc41821962e2e09f6903425e1def27a1176c5a64
 ENV INSTALL_PATH /kms
 # Set Rails to run in production
 ENV RAILS_ENV production
 
+<<<<<<< HEAD
 RUN apk update && apk --update --no-cache add libstdc++ postgresql-client tzdata && mkdir $INSTALL_PATH
+=======
+RUN apk update && apk --update --no-cache add libstdc++ postgresql-client && mkdir $INSTALL_PATH
+>>>>>>> fc41821962e2e09f6903425e1def27a1176c5a64
 
 WORKDIR $INSTALL_PATH
 
 COPY Gemfile Gemfile
 
 RUN apk --update --no-cache add --virtual build-deps build-base python postgresql-dev nodejs g++; \
+<<<<<<< HEAD
   bundle install --without development test && apk del build-deps
 
 COPY . .
 
 #RUN bundle exec rails kms:install:migrations \
 #   && SECRET_TOKEN="$(bundle exec rails secret)" DB_ADAPTER=nulldb bundle exec rails assets:precompile
+=======
+  bundle config build.libv8 --enable-debug && \
+  LIBV8_VERSION=$LIBV8_VERSION bundle install --without development test && apk del build-deps
+
+COPY . .
+
+RUN bundle exec rails kms:install:migrations \
+   && SECRET_TOKEN="$(bundle exec rails secret)" DB_ADAPTER=nulldb bundle exec rails assets:precompile
+>>>>>>> fc41821962e2e09f6903425e1def27a1176c5a64
 
 EXPOSE 3000
 
